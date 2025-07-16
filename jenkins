@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Check connectivity on the target server') {
+            steps {
+                sshagent (credentials: ['ssh-key']) {
+                    sh '''
+                        cp -r /home/weblogic/jdk1.8.0_202 /home/weblogic/jdk1.8.0_202_bkp
+                        rm -rf jdk1.8.0_202_bkp jdk1.8.0_202
+                        echo "Backup and cleanup completed successfully"
+                    '''
+                }
+            }
+        }
+        stage('untar jdk1.8.0_202.tar.gz') {
+            steps {
+                sshagent (credentials: ['ssh-key']) {
+                    sh '''
+                        cd /home/weblogic
+                        tar -zxvf *.tar.gz
+                        echo " *.tar.gz untarred successfully"
+                       
+                    '''
+                }
+            }
+        }
+    }
+}
