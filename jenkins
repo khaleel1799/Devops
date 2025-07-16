@@ -18,7 +18,7 @@ pipeline {
                 sshagent (credentials: ['ssh-key']) {
                     sh '''
                         cd /home/weblogic
-                        tar -zxvf *.tar.gz
+                        tar -zxvf *.tar.gz >log.txt
                         echo " *.tar.gz untarred successfully"
                        
                     '''
