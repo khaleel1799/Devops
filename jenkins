@@ -1,20 +1,23 @@
 pipeline {
     agent any
 
+    environment {
+        GIT_REPO = 'https://github.com/khaleel1799/Devops.git'
+        GIT_BRANCH = 'main'
+        WORK_DIR = "${env.WORKSPACE}/ansible"
+    }
+
     stages {
-        stage('Check connectivity on the target server') {
+        stage('Git Checkout') {
             steps {
-                sshagent (credentials: ['ssh-key']) {
-                    sh '''
-                        cp -r /home/weblogic/jdk1.8.0_202 /home/weblogic/jdk1.8.0_202_bkp
-                        rm -rf jdk1.8.0_202_bkp jdk1.8.0_202
-                        echo "Backup and cleanup completed successfully"
-                    '''
-                }
+                git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
+                echo "Code checked out to workspace: ${env.WORKSPACE}"
             }
         }
-        stage('untar jdk1.8.0_202.tar.gz') {
+
+        stage('Start Node Manager') {
             steps {
+<<<<<<< HEAD
                 sshagent (credentials: ['ssh-key']) {
                     sh '''
                         cd /home/weblogic
@@ -23,6 +26,39 @@ pipeline {
                        
                     '''
                 }
+=======
+                sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/start_node_manager.yml"
+            }
+        }
+
+        stage('Start Admin Server') {
+            steps {
+                sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/start_admin_server.yml"
+            }
+        }
+
+        stage('Start Cluster') {
+            steps {
+                sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/start_cluster.yml"
+            }
+        }
+
+        stage('Stop Cluster') {
+            steps {
+                sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/stop_cluster.yml"
+            }
+        }
+
+        stage('Stop Admin Server') {
+            steps {
+                sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/stop_admin_server.yml"
+            }
+        }
+
+        stage('Stop Node Manager') {
+            steps {
+                sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/stop_node_manager.yml"
+>>>>>>> dad2649 (Add initial Jenkins pipeline script)
             }
         }
     }
