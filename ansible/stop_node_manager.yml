@@ -1,0 +1,6 @@
+- name: Stop WebLogic Node Manager
+  hosts: weblogic
+  become: yes
+  tasks:
+    - name: Stop Node Manager
+      shell: pkill -f 'weblogic.NodeManager'

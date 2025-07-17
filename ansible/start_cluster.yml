@@ -1,0 +1,9 @@
+- name: Start WebLogic Managed Servers (Cluster)
+  hosts: weblogic
+  become: yes
+  tasks:
+    - name: Start Managed Server 1
+      shell: nohup /home/weblogic/wls_domains/base_domain/bin/startManagedWebLogic.sh ms1 http://localhost:7001 > /home/weblogic/ms1.out 2>&1 &
+
+    - name: Start Managed Server 2
+      shell: nohup /home/weblogic/wls_domains/base_domain/bin/startManagedWebLogic.sh ms2 http://localhost:7001 > /home/weblogic/ms2.out 2>&1 &

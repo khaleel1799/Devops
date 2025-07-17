@@ -1,0 +1,8 @@
+- name: Start WebLogic Admin Server
+  hosts: weblogic
+  become: yes
+  tasks:
+    - name: Start Admin Server
+      shell: nohup /home/weblogic/wls_domains/base_domain/startWebLogic.sh > /home/weblogic/adminserver.out 2>&1 &
+      args:
+        chdir: /home/weblogic/wls_domains/base_domain

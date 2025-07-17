@@ -1,0 +1,6 @@
+- name: Stop WebLogic Admin Server
+  hosts: weblogic
+  become: yes
+  tasks:
+    - name: Stop Admin Server
+      shell: pkill -f 'weblogic.Server'

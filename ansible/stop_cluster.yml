@@ -1,0 +1,9 @@
+- name: Stop WebLogic Managed Servers (Cluster)
+  hosts: weblogic
+  become: yes
+  tasks:
+    - name: Stop Managed Server 1
+      shell: pkill -f 'weblogic.Name=ms1'
+
+    - name: Stop Managed Server 2
+      shell: pkill -f 'weblogic.Name=ms2'

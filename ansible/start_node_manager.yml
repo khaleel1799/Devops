@@ -1,0 +1,8 @@
+- name: Start WebLogic Node Manager
+  hosts: weblogic
+  become: yes
+  tasks:
+    - name: Start Node Manager
+      shell: nohup /home/weblogic/wls_domains/base_domain/bin/startNodeManager.sh > /home/weblogic/nodemanager.out 2>&1 &
+      args:
+        chdir: /home/weblogic
