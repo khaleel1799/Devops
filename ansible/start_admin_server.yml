@@ -3,6 +3,6 @@
   become: yes
   tasks:
     - name: Start Admin Server
-      shell: nohup /home/weblogic/wls_domains/base_domain/startWebLogic.sh > /home/weblogic/adminserver.out 2>&1 &
+      shell: nohup /home/weblogic/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain/bin/startWebLogic.sh > /home/weblogic/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain/bin/adminserver.out 2>&1 &
       args:
-        chdir: /home/weblogic/wls_domains/base_domain
+        chdir: /home/weblogic/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain
