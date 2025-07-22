@@ -1,0 +1,19 @@
+- name: Send WebLogic logs to email
+  hosts: localhost
+  vars:
+    logs:
+      - path: /home/weblogic/admin.log
+        name: admin.log
+      - path: /home/weblogic/nodemanager.log
+        name: nodemanager.log
+    recipient: "khalleeeleele@mail.com"
+
+  tasks:
+    - name: Copy email log sender script
+      copy:
+        src: ./files/send_logs_email.py
+        dest: /tmp/send_logs_email.py
+        mode: '0755'
+
+    - name: Run log email script
+      command: python3 /tmp/send_logs_email.py
