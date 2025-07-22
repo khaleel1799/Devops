@@ -30,6 +30,7 @@ pipeline {
                 }
             }
         }
+
         stage('Send WebLogic Logs via Email') {
             steps {
                 sshagent(['ssh-key']) {
@@ -37,7 +38,6 @@ pipeline {
                 }
             }
         }
-    }
 
         stage('Capture Department Screenshots via Ansible') {
             steps {
