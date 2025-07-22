@@ -1,0 +1,5 @@
+- name: Capture department screenshots
+  hosts: localhost
+  tasks:
+    - name: Run screenshot script
+      command: python3 scripts/capture_screenshots.py

@@ -1,0 +1,5 @@
+- name: Email screenshots to departments
+  hosts: localhost
+  tasks:
+    - name: Send email script
+      command: python3 scripts/send_email.py

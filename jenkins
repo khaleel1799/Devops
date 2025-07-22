@@ -5,6 +5,7 @@ pipeline {
         GIT_REPO = 'https://github.com/khaleel1799/Devops.git'
         GIT_BRANCH = 'main'
         WORK_DIR = "${env.WORKSPACE}/ansible"
+        PYTHON_SCRIPT_DIR = "${env.WORKSPACE}/scripts"
     }
 
     stages {
@@ -18,14 +19,38 @@ pipeline {
         stage('Run WebLogic Playbooks') {
             steps {
                 sshagent(['ssh-key']) {
-                    sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/start_node_manager.yml"
-                    sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/start_admin_server.yml"
-                    sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/start_cluster.yml"
-                    sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/stop_cluster.yml"
-                    sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/stop_admin_server.yml"
-                    sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/stop_node_manager.yml"
+                    sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/start_node_manager.yml > ~/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain/bin/nodemanager.log 2>&1 &"
+                    sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/start_admin_server.yml > ~/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain/bin/admin.log 2>&1 &"
+                    // Uncomment the lines below as needed
+                    // sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/start_cluster.yml > ~/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain/bin/clusterstart.log 2>&1 &"
+                    // sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/stop_cluster.yml > ~/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain/bin/clusterstop.log 2>&1 &"
+                    // sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/stop_admin_server.yml"
+                    // sh "ansible-playbook -i ${WORK_DIR}/inventory/hosts ${WORK_DIR}/stop_node_manager.yml"
                 }
             }
+        }
+
+        stage('Capture Department Screenshots') {
+            steps {
+                echo "Running Python script to capture HTML screenshots"
+                sh "python3 ${PYTHON_SCRIPT_DIR}/capture_screenshots.py"
+            }
+        }
+
+        stage('Send Email with Screenshots') {
+            steps {
+                echo "Running Python script to send email per department"
+                sh "python3 ${PYTHON_SCRIPT_DIR}/send_email.py"
+            }
+        }
+    }
+
+    post {
+        failure {
+            echo 'Pipeline failed. Please check logs.'
+        }
+        success {
+            echo 'Pipeline completed successfully.'
         }
     }
 }
