@@ -1,0 +1,11 @@
+- name: Send emails with screenshots
+  hosts: localhost
+  tasks:
+    - name: Run email sender script
+      copy:
+        src: files/send_email.py
+        dest: /tmp/send_email.py
+        mode: '0755'
+
+    - name: Execute the email script
+      command: python3 /tmp/send_email.py

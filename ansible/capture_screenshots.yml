@@ -1,0 +1,17 @@
+- name: Capture screenshots of department pages
+  hosts: localhost
+  tasks:
+    - name: Ensure Python dependencies are installed
+      pip:
+        name:
+          - selenium
+        executable: pip3
+
+    - name: Run screenshot script
+      copy:
+        src: files/capture_screenshots.py
+        dest: /tmp/capture_screenshots.py
+        mode: '0755'
+
+    - name: Execute the screenshot script
+      command: python3 /tmp/capture_screenshots.py
