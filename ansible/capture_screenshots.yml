@@ -9,7 +9,7 @@
 
     - name: Run screenshot script
       copy:
-        src: files/capture_screenshots.py
+        src: ./files/capture_screenshots.py
         dest: /tmp/capture_screenshots.py
         mode: '0755'
 
