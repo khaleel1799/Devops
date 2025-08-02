@@ -3,9 +3,6 @@ name: Remote Directory Creation_weblogic
 on:
   workflow_dispatch:
 
-env:
-  TARGET_DIR: " ~/new_directory"
-
 jobs:
   create-directory:
     runs-on: ubuntu-latest
@@ -23,4 +20,4 @@ jobs:
 
     - name: Connect and Create Directory
       run: |
-        ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "mkdir -p $TARGET_DIR && echo 'Directory created: $TARGET_DIR'"
+        ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "mkdir -p ~/home/weblogic/new && echo 'Directory created: $TARGET_DIR'"
