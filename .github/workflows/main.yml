@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  TARGET_DIR: "/home/weblogic/new_directory"
+  TARGET_DIR: " ~/new_directory"
 
 jobs:
   create-directory:
