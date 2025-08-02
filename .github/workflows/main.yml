@@ -1,4 +1,4 @@
-name: Remote Directory Creation
+name: Remote Directory Creation_weblogic
 
 on:
   workflow_dispatch:
